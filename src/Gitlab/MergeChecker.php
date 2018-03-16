@@ -1,6 +1,6 @@
 <?php
 
-namespace MGBot\Mattermost;
+namespace MGBot\Gitlab;
 
 use GuzzleHttp\Client;
 use MGBot\Config\Config;
