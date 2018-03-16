@@ -1,5 +1,5 @@
 {
-    "name": "drholera/mattermost-gitlab-merge-request-alert",
+    "name": "drholera/Mattermost-Gitlab-Merge-Request-Alert",
     "description": "Counts merge requests on provided gitlab servier and project ID and notice in the chat if there are more than 5 not merged MRs",
     "keywords": ["mattermost", "chat", "gitlab"],
     "license": "MIT",
