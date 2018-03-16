@@ -1,12 +1,13 @@
 {
-    "name": "drholera/mattermost-gitlab-merge-request-counter",
+    "name": "drholera/mattermost-gitlab-merge-request-alert",
     "description": "Counts merge requests on provided gitlab servier and project ID and notice in the chat if there are more than 5 not merged MRs",
     "keywords": ["mattermost", "chat", "gitlab"],
     "license": "MIT",
     "authors": [
         {
             "name": "Dmitry Polkhov",
-            "email": "drholera@gmail.com"
+            "email": "drholera@gmail.com",
+            "role": "Developer"
         }
     ],
     "support": {
