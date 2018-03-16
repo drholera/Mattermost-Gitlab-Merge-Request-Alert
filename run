@@ -14,6 +14,5 @@ $config = Config::getMattermostConfig();
 
 $checker = new MergeChecker();
 
-echo $checker->getMergeRequestsCount();
-
-echo $config;
+$checker->runCheck();
+exit;
