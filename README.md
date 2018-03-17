@@ -7,7 +7,7 @@ This small script checks how many merge requests you have and alerts to the Matt
 1. Clone or download current repository
 2. Run ``` composer install```
 3. Update configuration
-4. Run ``` php start ```
+4. Run ``` php start --project_id=YOUR_PROJECT_ID ``` (project ID specified in Gitlab)
 
 ### Configuration
 Go to src/Config and edit the Config.php
