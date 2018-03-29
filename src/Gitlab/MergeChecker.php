@@ -11,7 +11,7 @@ class MergeChecker {
 
   public function runCheck() {
     $mergeRequestsCount = $this->getMergeRequestsCount();
-    if ( $mergeRequestsCount >= 5 ) {
+    if ( $mergeRequestsCount > 5 ) {
       $this->displayMessage( $mergeRequestsCount );
     }
   }
@@ -20,10 +20,16 @@ class MergeChecker {
     $url      = $this->getGitlabFullUrl();
     $guzzle   = new Client();
     $response = $guzzle->request( 'GET', $url )->getBody()->getContents();
-
+    $count = 0;
     if ( ! empty( $response ) ) {
-      return count( json_decode( $response ) );
+    	foreach(json_decode( $response ) as $merge_request) {
+    		if ($merge_request->work_in_progress == false) {
+    			$count++;
+    		}
+    	}
     }
+      return $count;	
+      return count( json_decode( $response ) );
 
     die('Empty GitLab response');
   }
@@ -41,7 +47,7 @@ class MergeChecker {
         'json'    => [
           "username" => $matterMostConfig['username'],
           "icon_url" => $matterMostConfig['icon_url'],
-          "text"     => "Guys! We have too many MRs. $mergeRequestsCount for now! Check it when you'll have time.",
+          "text"     => "Guys! We have too many MRs. $mergeRequestsCount for now! Check it when you'll have time. Big brother is watching you!",
         ],
       ] );
     }
