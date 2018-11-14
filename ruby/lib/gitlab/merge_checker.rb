@@ -1,25 +1,25 @@
 require 'getoptlong'
 require 'net/http'
 require 'json'
-require File.expand_path('../../config/config', __FILE__ )
+require File.expand_path('../../config/config', __FILE__)
 
 class MergeChecker
   OPENED_MERGE_REQUESTS = '/merge_requests?state=opened'
 
   def run_checker
     merge_requests_count = get_merge_reqests_count
-    if merge_requests_count > 5
+    if merge_requests_count >= 5
       display_message(merge_requests_count)
     end
   end
 
   def get_merge_reqests_count
-    url      = get_gitlab_full_url
+    url = get_gitlab_full_url
     response = Net::HTTP.get(URI url)
-    count    = 0
+    count = 0
     if !response.empty?
       JSON.parse(response).each do |merge_request|
-        if merge_request.respond_to?(:work_in_progress) == false
+        if merge_request['work_in_progress'] == false
           count += 1
         end
       end
@@ -28,17 +28,21 @@ class MergeChecker
   end
 
   def display_message (merge_requests_count)
-    mattermost_config = Config::get_mattermost_config
+    mattermost_config = Config::get_mattermost_config[0]
 
     mattermost_config['token'].each do |webhook|
-      Net::HTTP.post(mattermost_config['server'] + '/hooks/' + webhook, {
-          "json" => [
+      data = {
+          # "json" => [
               "username" => mattermost_config['username'],
               "icon_url" => mattermost_config['icon_url'],
-              "text"     => "Guys! We have too many MRs. #{merge_requests_count} for now! Check it when you'll have time. Big brother is watching you!",
-          ].to_json,
-      },
+              "text" => "Guys! We have too many MRs. #{merge_requests_count} for now! Check it when you'll have time. Big brother is watching you!",
+          # ]
+      }.to_json
+
+      result = Net::HTTP.post(URI("#{mattermost_config['server']}/hooks/#{webhook}"), data,
                      "Content-Type" => "application/json")
+
+      puts result
     end
   end
 
